@@ -46,10 +46,19 @@
 /// }
 /// # }
 pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
+    // Check for the undefined case, followed by the base cases, and ending with the recursive case
     if a == 0 && b == 0 {
+        // Error on the undefined case
         Err("GCD undefined for 0 and 0")
+    } else if a == 0 {
+        // Return the non-zero answer
+        Ok(b)
+    } else if b == 0 {
+        // Return the non-zero answer
+        Ok(a)
     } else {
-        Ok(0)
+        // Apply Euclid's Method as described in lecture
+        euclid_gcd(b, a % b)
     }
 }
 
@@ -79,7 +88,7 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 && b == 0 {
         Err("GCD undefined for 0 and 0")
     } else {
-        Ok(0)
+        todo!()
     }
 }
 
@@ -109,6 +118,6 @@ pub fn middle_school_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 && b == 0 {
         Err("GCD undefined for 0 and 0")
     } else {
-        Ok(0)
+        todo!()
     }
 }

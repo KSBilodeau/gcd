@@ -10,3 +10,4 @@ edition = "2021"
 
 [dev-dependencies]
 num-integer = "0.1.45"
+rand = "0.8.5"
