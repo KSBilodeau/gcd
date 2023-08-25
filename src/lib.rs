@@ -34,6 +34,17 @@
 ///
 /// # Errors
 /// Will return `Err` if the GCD for two given numbers is undefined.
+///
+/// # Example
+/// ```
+/// # use gcd::*;
+/// #
+/// # fn main() {
+/// // Extract the result from the function as we know it will be Ok as the GCD is not undefined
+/// if let Ok(result) = euclid_gcd(15, 25) {
+///     println!("The GCD of 15 and 25 is {result}!")
+/// }
+/// # }
 pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 && b == 0 {
         Err("GCD undefined for 0 and 0")
@@ -53,6 +64,7 @@ pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 ///
 /// # Errors
 /// Will return `Err` if the GCD for two given numbers is undefined.
+///
 /// # Example
 /// ```
 /// # use gcd::*;
