@@ -11,7 +11,7 @@ fn euclid_undefined() {
 #[test]
 fn consecutive_undefined() {
     // Asserts that the function returns the appropriate error
-    assert_eq!(Err("GCD undefined for 0 and 0"), consecutive_gcd(0, 0));
+    assert_eq!(Err("Consecutive GCD undefined for any 0 input"), consecutive_gcd(0, 0));
 }
 
 /// Tests Middle School Procedure's undefined value case to ensure it errors correctly
