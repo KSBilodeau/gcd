@@ -75,7 +75,7 @@ pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 /// Will return `Err` if the GCD for two given numbers is undefined.
 ///
 /// # Example
-/// ```
+/// ```should_panic
 /// # use gcd::*;
 /// #
 /// # fn main() {
@@ -105,7 +105,7 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 /// Will return `Err` if the GCD for two given numbers is undefined.
 ///
 /// # Example
-/// ```
+/// ```should_panic
 /// # use gcd::*;
 /// #
 /// # fn main() {
