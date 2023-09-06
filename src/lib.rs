@@ -85,8 +85,8 @@ pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 /// }
 /// # }
 pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
-    if a == 0 && b == 0 {
-        Err("GCD undefined for 0 and 0")
+    if a == 0 || b == 0 {
+        Err("Consecutive GCD undefined for any 0 input")
     } else {
         todo!()
     }
