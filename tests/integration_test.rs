@@ -54,13 +54,40 @@ fn euclid_random() {
     }
 }
 
-// TODO: REMOVE ALL FOLLOWING TESTS FOR BEING USELESS ONCE FEATURES ARE IMPLEMENTED
+#[test]
+fn consecutive_zero_a() {
+    assert_eq!(Err("Consecutive GCD undefined for any 0 input"), consecutive_gcd(0, 2));
+}
 
 #[test]
-#[should_panic]
-fn consecutive_unimplemented() {
-    let _ = consecutive_gcd(1, 1);
+fn consecutive_zero_b() {
+    assert_eq!(Err("Consecutive GCD undefined for any 0 input"), consecutive_gcd(2, 0));
 }
+
+#[test]
+fn consecutive_one_to_hundred() {
+    for a in 1..=100 {
+        for b in 1..=100 {
+            assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+        }
+    }
+}
+
+#[test]
+fn consecutive_random() {
+    use rand::Rng;
+
+    let mut rng = rand::thread_rng();
+
+    for _ in 0..100 {
+        let a: u64 = rng.gen_range(1..u64::MAX);
+        let b: u64 = rng.gen_range(1..u64::MAX);
+
+        assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+    }
+}
+
+// TODO: REMOVE ALL FOLLOWING TESTS FOR BEING USELESS ONCE FEATURES ARE IMPLEMENTED
 
 #[test]
 #[should_panic]
