@@ -75,7 +75,7 @@ pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 /// Will return `Err` if the GCD for two given numbers is undefined.
 ///
 /// # Example
-/// ```should_panic
+/// ```
 /// # use gcd::*;
 /// #
 /// # fn main() {
@@ -88,7 +88,17 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 || b == 0 {
         Err("Consecutive GCD undefined for any 0 input")
     } else {
-        todo!()
+        let mut t = std::cmp::min(a, b);
+
+        loop {
+            if a % t == 0 {
+                if b % t == 0 {
+                    return Ok(t)
+                }
+            }
+
+            t -= 1;
+        }
     }
 }
 
