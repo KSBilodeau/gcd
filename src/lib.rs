@@ -104,7 +104,7 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     }
 }
 
-/// Uses the algorithm known as the Sieve of Eratosthenes.
+/// Uses the algorithm known as the Sieve of Eratosthenes to determine primes up to n.
 ///
 /// The Sieve of Eratosthenes is an iterative algorithm that
 /// repeatedly goes over the length of 2..n until it has eliminated all
@@ -171,6 +171,21 @@ pub fn occurrences(n: u64, prime: u64) -> u64 {
     }
 
     occurrences
+}
+
+/// Gives the prime factorization of any given number n.
+///
+/// The algorithm filters the output from prime_sieve for n and then uses occurrences to bundle
+/// the number of occurrences of any given factor into a tuple.
+pub fn prime_factors(n: u64) -> Vec<(u64, u64)> {
+    // Sieve the number to get all of the primes up to n
+    prime_sieve(n)
+        // Start an iterator chain
+        .iter()
+        // Filter for factors and then combine them with their occurrences
+        .filter_map(|&x| if n % x == 0 { Some((x, occurrences(n, x))) } else { None })
+        // Collect it into a vec and return
+        .collect()
 }
 
 /// Uses Middle School Procedure to find the GCD of two numbers.
