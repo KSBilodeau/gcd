@@ -140,6 +140,39 @@ pub fn prime_sieve(n: u64) -> Vec<u64> {
         .collect()
 }
 
+/// Gives the occurrences of a given prime in a factorization of some number n.
+///
+/// This doesn't use any specific algorithm.  It simply loops adding to an
+/// internal occurrence counter until the prime cannot divide into n anymore.
+///
+/// # Panic
+/// Panics when n is not able to be evenly divisible by prime.
+///
+/// # Example
+/// ```
+/// # use gcd::*;
+/// #
+/// # fn main() {
+/// println!("{} twos in 60.", occurrences(60, 2));
+/// // Output: "2 twos in 60"
+/// # }
+/// ```
+pub fn occurrences(n: u64, prime: u64) -> u64 {
+    if n % prime != 0 {
+        panic!("Cannot find number of occurrences for non-factor prime.");
+    }
+
+    let mut occurrences = 1;
+    let mut leftovers = n / prime;
+
+    while leftovers % prime == 0 {
+        occurrences += 1;
+        leftovers = leftovers / prime;
+    }
+
+    occurrences
+}
+
 /// Uses Middle School Procedure to find the GCD of two numbers.
 ///
 /// Middle School procedure is the most simplistic out of all the algorithms for GCD. It does
