@@ -201,7 +201,7 @@ pub fn prime_factors(n: u64) -> Vec<(u64, u64)> {
 /// Will return `Err` if the GCD for two given numbers is undefined.
 ///
 /// # Example
-/// ```should_panic
+/// ```
 /// # use gcd::*;
 /// #
 /// # fn main() {
@@ -212,9 +212,51 @@ pub fn prime_factors(n: u64) -> Vec<(u64, u64)> {
 /// # }
 /// ```
 pub fn middle_school_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
-    if a == 0 && b == 0 {
-        Err("GCD undefined for 0 and 0")
+    // If the GCD is for 0 and 0, return an error
+    if a == 0 || b == 0 {
+        Err("Middle school procedure is undefined for 0 and 0")
     } else {
-        todo!()
+        // Get the prime factors and their occurrences for both term a and b
+        let factors_a = prime_factors(a);
+        let factors_b = prime_factors(b);
+
+        // Use my O(min(M, N)) vector intersection algorithm from the first homework assignment
+
+        // Two indexes to keep track of where we are in both vectors
+        let mut index_a = 0;
+        let mut index_b = 0;
+
+        // Vector to store results
+        let mut intersection = vec![];
+
+        // Keep looping until we hit the end of one of the vectors
+        while index_a < factors_a.len() && index_b < factors_b.len() {
+            // If the primes are equal, push the factor onto the intersection list (ensuring the
+            // min of the two exponents is pushed with the factor
+            // Otherwise, move the indexes in accordance to whether A or B factor is greater
+            if factors_a[index_a].0 == factors_b[index_b].0 {
+                intersection.push(
+                    (factors_a[index_a].0, std::cmp::min(factors_a[index_a].1, factors_b[index_b].1))
+                );
+
+                index_a += 1;
+                index_b += 1;
+
+            } else if factors_a[index_a].0 > factors_b[index_b].0 {
+                index_b += 1;
+            } else {
+                index_a += 1;
+            }
+        }
+
+        // Use the fold function to collapse the vector down to a single value,
+        // which is our result
+        Ok(
+            intersection
+                .iter()
+                .fold(1, |acc, &(prime, exponent)| {
+                    acc * prime.pow(exponent as u32)
+                })
+        )
     }
 }
