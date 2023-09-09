@@ -93,7 +93,7 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
         loop {
             if a % t == 0 {
                 if b % t == 0 {
-                    return Ok(t)
+                    return Ok(t);
                 }
             }
 
