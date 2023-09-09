@@ -45,6 +45,7 @@
 ///     println!("The GCD of 15 and 25 is {result}!")
 /// }
 /// # }
+/// ```
 pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     // Check for the undefined case, followed by the base cases, and ending with the recursive case
     if a == 0 && b == 0 {
@@ -84,6 +85,7 @@ pub fn euclid_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 ///     println!("The GCD of 15 and 25 is {result}!")
 /// }
 /// # }
+/// ```
 pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 || b == 0 {
         Err("Consecutive GCD undefined for any 0 input")
@@ -118,6 +120,7 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
 /// println!("The set of primes for n <= 25 includes: {:?}", prime_sieve(25));
 /// // Output: "The set of primes for n <= 25 includes: [2, 3, 5, 7, 11, 13, 17, 19, 23]"
 /// # }
+/// ```
 pub fn prime_sieve(n: u64) -> Vec<u64> {
     let mut primes = [0, 0].into_iter().chain(2..=n).collect::<Vec<_>>();
 
@@ -159,6 +162,7 @@ pub fn prime_sieve(n: u64) -> Vec<u64> {
 ///     println!("The GCD of 15 and 25 is {result}!")
 /// }
 /// # }
+/// ```
 pub fn middle_school_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     if a == 0 && b == 0 {
         Err("GCD undefined for 0 and 0")
