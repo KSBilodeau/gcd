@@ -18,7 +18,7 @@ fn consecutive_undefined() {
 #[test]
 fn middle_school_undefined() {
     // Asserts that the function returns the appropriate error
-    assert_eq!(Err("GCD undefined for 0 and 0"), middle_school_gcd(0, 0));
+    assert_eq!(Err("Middle school procedure is undefined for 0 and 0"), middle_school_gcd(0, 0));
 }
 
 // Euclid's method should return b when a is 0, which this confirms
@@ -148,10 +148,35 @@ fn prime_sieve_random() {
     }
 }
 
-// TODO: REMOVE ALL FOLLOWING TESTS FOR BEING USELESS ONCE FEATURES ARE IMPLEMENTED
+#[test]
+fn middle_school_zero_a() {
+    assert_eq!(Err("Middle school procedure is undefined for 0 and 0"), middle_school_gcd(0, 2));
+}
 
 #[test]
-#[should_panic]
-fn middle_school_unimplemented() {
-    let _ = middle_school_gcd(1, 1);
+fn middle_school_zero_b() {
+    assert_eq!(Err("Middle school procedure is undefined for 0 and 0"), middle_school_gcd(2, 0));
+}
+
+#[test]
+fn middle_school_one_to_hundred() {
+    for a in 1..=100 {
+        for b in 1..=100 {
+            assert_eq!(Ok(num_integer::gcd(a, b)), middle_school_gcd(a, b));
+        }
+    }
+}
+
+#[test]
+fn middle_school_random() {
+    use rand::Rng;
+
+    let mut rng = rand::thread_rng();
+
+    for _ in 0..100 {
+        let a: u64 = rng.gen_range(1..1000) as u64;
+        let b: u64 = rng.gen_range(1..1000) as u64;
+
+        assert_eq!(Ok(num_integer::gcd(a, b)), middle_school_gcd(a, b));
+    }
 }
