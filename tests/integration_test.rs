@@ -102,6 +102,52 @@ fn consecutive_random() {
     }
 }
 
+// Determinate test that ensures that for some fixed value (100) the prime sieve works in
+// comparison to some 3rd party implementation.
+#[test]
+fn prime_sieve_to_100() {
+    // Trait that allows the sieve to be converted to an iterator
+    use primes::PrimeSet;
+
+    // Create a new 3rd party sieve for testing purposes
+    let mut sieve = primes::Sieve::new();
+    // Take some number of primes out that will result in primes larger than 100
+    // Then filter for primes less than 100 and store in a vec
+    let primes: Vec<u64> = sieve.iter().take(100).filter(|&x| x <= 100).collect();
+
+    // Compare 3rd party prime sieve to mine
+    assert_eq!(primes, prime_sieve(100));
+}
+
+// Randomly selects some upper bound n and adds variety to ensure testing is not missing potential
+// edge cases. Capped at 1000 attempts with a 1..10,000 range for the sake of prime sieves taking
+// forever the more primes you calculate.
+#[test]
+fn prime_sieve_random() {
+    // Trait that allows the sieve to be converted to an iterator
+    use primes::PrimeSet;
+    // Trait that allows for the generation of random numbers
+    use rand::Rng;
+
+    // Create a random number generator
+    let mut rng = rand::thread_rng();
+
+    // Run this test 1000 times to ensure randomness doesn't work against the test
+    for _ in 0..1000 {
+        // Generate some new number n between 1 and 10,000 (lhs inclusive, rhs exclusive)
+        let n: u64 = rng.gen_range(1..10000);
+
+        // Create a new 3rd party sieve for testing purposes
+        let mut sieve = primes::Sieve::new();
+        // Take some number of primes out that will result in primes larger than 100
+        // Then filter for primes less than 100 and store in a vec
+        let primes: Vec<u64> = sieve.iter().take(n as usize).filter(|&x| x <= n).collect();
+
+        // Compare 3rd party prime sieve to mine
+        assert_eq!(primes, prime_sieve(n));
+    }
+}
+
 // TODO: REMOVE ALL FOLLOWING TESTS FOR BEING USELESS ONCE FEATURES ARE IMPLEMENTED
 
 #[test]
