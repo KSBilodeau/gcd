@@ -1,11 +1,5 @@
+use std::i64;
 use gcd::*;
-
-/// Tests Euclid Method's undefined value case to ensure it errors correctly
-#[test]
-fn euclid_undefined() {
-    // Asserts that the function returns the appropriate error
-    assert_eq!(Err("GCD undefined for 0 and 0"), euclid_gcd(0, 0));
-}
 
 /// Tests the Consecutive Integer Method's undefined value case to ensure it errors correctly
 #[test]
@@ -24,23 +18,23 @@ fn middle_school_undefined() {
 // Euclid's method should return b when a is 0, which this confirms
 #[test]
 fn euclid_zero_a() {
-    assert_eq!(Ok(2), euclid_gcd(0, 2));
+    assert_eq!(2, euclid_gcd(0, 2, &mut 1, &mut 1));
 }
 
 // Euclid's method should also return a when b is 0, which this confirms
 #[test]
 fn euclid_zero_b() {
-    assert_eq!(Ok(2), euclid_gcd(2, 0));
+    assert_eq!(2, euclid_gcd(2, 0, &mut 1, &mut 1));
 }
 
 // Tests the euclid_gcd against all permutations of 100 consecutive numbers
 #[test]
 fn euclid_one_to_hundred() {
-    for a in 1..=100 {
-        for b in 1..=100 {
+    for a in -100..=100 {
+        for b in -100..=100 {
             // Brings in a trusted 3rd party dependency to check against
             // Under dev deps so it is not utilized in the actual library code
-            assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+            assert_eq!(num_integer::gcd(a, b), euclid_gcd(a, b, &mut 1, &mut 1));
         }
     }
 }
@@ -57,12 +51,12 @@ fn euclid_random() {
 
     for _ in 0..100 {
         // Generate the first random number
-        let a: u64 = rng.gen_range(1..u64::MAX);
+        let a: i64 = rng.gen_range(1..i64::MAX);
         // Then the second random number
-        let b: u64 = rng.gen_range(1..u64::MAX);
+        let b: i64 = rng.gen_range(1..i64::MAX);
 
         // Finally compare the two algorithms to ensure they match
-        assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+        assert_eq!(num_integer::gcd(a, b), euclid_gcd(a, b, &mut 1, &mut 1));
     }
 }
 
@@ -83,7 +77,7 @@ fn consecutive_zero_b() {
 fn consecutive_one_to_hundred() {
     for a in 1..=100 {
         for b in 1..=100 {
-            assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+            assert_eq!(Ok(num_integer::gcd(a, b)), consecutive_gcd(a, b));
         }
     }
 }
@@ -95,10 +89,10 @@ fn consecutive_random() {
     let mut rng = rand::thread_rng();
 
     for _ in 0..100 {
-        let a: u64 = rng.gen_range(1..u64::MAX);
-        let b: u64 = rng.gen_range(1..u64::MAX);
+        let a: u64 = rng.gen_range(1..1000);
+        let b: u64 = rng.gen_range(1..1000);
 
-        assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
+        assert_eq!(Ok(num_integer::gcd(a, b)), consecutive_gcd(a, b));
     }
 }
 
