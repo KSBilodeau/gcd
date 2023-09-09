@@ -102,6 +102,41 @@ pub fn consecutive_gcd(a: u64, b: u64) -> Result<u64, &'static str> {
     }
 }
 
+/// Uses the algorithm known as the Sieve of Eratosthenes.
+///
+/// The Sieve of Eratosthenes is an iterative algorithm that
+/// repeatedly goes over the length of 2..n until it has eliminated all
+/// non-prime numbers.  It does this by going down an array of 0,0,2..n integers
+/// and setting multiples of each number that is not zero to zero, so they are skipped
+/// over.
+///
+/// # Example
+/// ```
+/// # use gcd::*;
+/// #
+/// # fn main() {
+/// println!("The set of primes for n <= 25 includes: {:?}", prime_sieve(25));
+/// // Output: "The set of primes for n <= 25 includes: [2, 3, 5, 7, 11, 13, 17, 19, 23]"
+/// # }
+pub fn prime_sieve(n: u64) -> Vec<u64> {
+    let mut primes = [0, 0].into_iter().chain(2..=n).collect::<Vec<_>>();
+
+    for prime in 2..=(f64::sqrt(n as f64).floor() as u64) {
+        if primes[prime as usize] != 0 {
+            let mut step = prime * prime;
+
+            while step <= n {
+                primes[step as usize] = 0;
+                step += prime;
+            }
+        }
+    }
+
+    primes.iter()
+        .filter_map(|&x| if x != 0 { Some(x) } else { None })
+        .collect()
+}
+
 /// Uses Middle School Procedure to find the GCD of two numbers.
 ///
 /// Middle School procedure is the most simplistic out of all the algorithms for GCD. It does
