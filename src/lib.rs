@@ -15,7 +15,7 @@
 //! # fn main() {
 //! for a in 1..100 {
 //!     for b in 1..100 {
-//!         println!("GCD of {a} and {b} is {}.", euclid_gcd(a, b, &mut 1, &mut 1));
+//!         println!("GCD of {a} and {b} is {}.", euclid_gcd(a, b));
 //!     }
 //! }
 //! # }
@@ -39,31 +39,26 @@
 /// #
 /// # fn main() {
 /// // Extract the result from the function as we know it will be Ok as the GCD is not undefined
-/// println!("The GCD of 15 and 25 is {}!", euclid_gcd(15, 25, &mut 1, &mut 1))
+/// println!("The GCD of 15 and 25 is {}!", euclid_gcd(15, 25).unwrap())
 /// # }
 /// ```
-pub fn euclid_gcd(a: i64, b: i64, mut x: &mut i64, mut y: &mut i64) -> i64 {
-    // If a is 0, return the base case
-    if a == 0 {
-        *x = 0;
-        *y = 1;
+pub fn euclid_gcd(a: i64, b: i64) -> Result<i64, &'static str> {
+    if a == 0 && b == 0 {
+        Err("GCD undefined for input of 0 and 0.")
+    } else {
+        let (mut s1, mut t1, mut r1) = (0, 1, b);
+        let (mut s2, mut t2, mut r2) = (1, 0, a);
 
-        // Return the absolute value of b to get the right value
-        return b.abs();
+        while r1 != 0 {
+            let quotient = r2 / r1;
+
+            (r2, r1) = (r1, r2 - quotient * r1);
+            (s2, s1) = (s1, s2 - quotient * s1);
+            (t2, t1) = (t1, t2 - quotient * t1);
+        }
+
+        Ok(r2.abs())
     }
-
-    let mut x1 = 1;
-    let mut y1 = 1;
-
-    // Recurse until we reach base case
-    let gcd = euclid_gcd(b % a, a, &mut x1, &mut y1);
-
-    // Apply the extended sieve equation
-    *x = y1 - (b / a) * x1;
-    *y = x1;
-
-    // Return to recuse up the tree
-    gcd
 }
 
 /// Uses the Consecutive Integer Method of finding the GCD of two numbers.

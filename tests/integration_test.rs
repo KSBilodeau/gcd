@@ -1,4 +1,3 @@
-use std::i64;
 use gcd::*;
 
 /// Tests the Consecutive Integer Method's undefined value case to ensure it errors correctly
@@ -18,13 +17,13 @@ fn middle_school_undefined() {
 // Euclid's method should return b when a is 0, which this confirms
 #[test]
 fn euclid_zero_a() {
-    assert_eq!(2, euclid_gcd(0, 2, &mut 1, &mut 1));
+    assert_eq!(Ok(2), euclid_gcd(0, 2));
 }
 
 // Euclid's method should also return a when b is 0, which this confirms
 #[test]
 fn euclid_zero_b() {
-    assert_eq!(2, euclid_gcd(2, 0, &mut 1, &mut 1));
+    assert_eq!(Ok(2), euclid_gcd(2, 0));
 }
 
 // Tests the euclid_gcd against all permutations of 100 consecutive numbers
@@ -32,9 +31,13 @@ fn euclid_zero_b() {
 fn euclid_one_to_hundred() {
     for a in -100..=100 {
         for b in -100..=100 {
+            if a == 0 && b == 0 {
+                continue;
+            }
+
             // Brings in a trusted 3rd party dependency to check against
             // Under dev deps so it is not utilized in the actual library code
-            assert_eq!(num_integer::gcd(a, b), euclid_gcd(a, b, &mut 1, &mut 1));
+            assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
         }
     }
 }
@@ -56,7 +59,7 @@ fn euclid_random() {
         let b: i64 = rng.gen_range(1..i64::MAX);
 
         // Finally compare the two algorithms to ensure they match
-        assert_eq!(num_integer::gcd(a, b), euclid_gcd(a, b, &mut 1, &mut 1));
+        assert_eq!(Ok(num_integer::gcd(a, b)), euclid_gcd(a, b));
     }
 }
 
