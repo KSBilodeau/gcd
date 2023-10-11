@@ -1,20 +1,35 @@
-use gcd::euclid_gcd;
+use gcd::{gcd_with_algorithm, GcdAlgorithms};
 
 fn main() {
+    // Get all of the program arguments passed by the terminal
     let args: Vec<String> = std::env::args().collect();
 
-    if args.len() == 1 {
-        println!("Must pass two integers to get GCD");
+    // Ensure that two numbers were passed to the program
+    if args.len() < 3 || args.len() > 3 {
+        println!("Must pass only two integers to get GCD");
     } else {
-        if args.len() == 3 {
-            // Match on the returned result to get either the value or the error
-            // Absolute value as the functions assume positive integers (and result is same)
-            match euclid_gcd(args[1].parse().unwrap(), args[2].parse().unwrap()) {
-                Ok(val) => println!("{}", val),
-                Err(err) => println!("{}", err)
-            }
-        } else {
-            println!("Not enough arguments")
+        // Match on the returned result to get either the value or the error
+        // Take the first and second argument passed in by the user and parse them into
+        // integers with 64 bits
+        match gcd_with_algorithm(args[1].parse().unwrap(), args[2].parse().unwrap(), GcdAlgorithms::Euclid) {
+            // If gcd completed without errors, print the gcd
+            Ok(val) => println!("Euclid:       {}", val),
+            // If gcd completed with errors, print the error
+            Err(err) => println!("{}", err)
+        }
+
+        match gcd_with_algorithm(args[1].parse().unwrap(), args[2].parse().unwrap(), GcdAlgorithms::Consecutive) {
+            // If gcd completed without errors, print the gcd
+            Ok(val) => println!("Consecutive:  {}", val),
+            // If gcd completed with errors, print the error
+            Err(err) => println!("{}", err)
+        }
+
+        match gcd_with_algorithm(args[1].parse().unwrap(), args[2].parse().unwrap(), GcdAlgorithms::Middle) {
+            // If gcd completed without errors, print the gcd
+            Ok(val) => println!("Middle:       {}", val),
+            // If gcd completed with errors, print the error
+            Err(err) => println!("{}", err)
         }
     }
 }
